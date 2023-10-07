@@ -23,8 +23,6 @@
 
 Elegantly secure your Express.js APIs with the **Passport-Nostr** strategy, an easy-to-integrate solution for simple authentication using the Passport.js middleware.
 
-![Banner Image](banner.png)
-
 ## 🚀 Getting Started
 
 ### 1. Install

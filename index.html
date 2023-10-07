@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Test</title>
+    <style>
+      body {
+        font-family: 'Arial', sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+        background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%);
+        color: #333;
+      }
+      h1 {
+        font-size: 2em;
+        margin-bottom: 20px;
+        color: #fff;
+      }
+      button {
+        background-color: #fff;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+        margin: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      button:hover {
+        background-color: #b8e0f3;
+      }
+      p {
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 10px;
+        border-radius: 5px;
+        width: 80%;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Test API Endpoints</h1>
+    <button onclick="fetchPublic()">Fetch Public Endpoint</button>
+    <button onclick="fetchProtected()">Fetch Protected Endpoint</button>
+
+    <p id="publicResponse">Public Endpoint Response:</p>
+    <p id="protectedResponse">Protected Endpoint Response:</p>
+
+    <script>
+      async function fetchPublic() {
+        try {
+          const response = await fetch('http://localhost:3344/public')
+          const data = await response.json()
+          document.getElementById('publicResponse').innerText =
+            'Public Endpoint Response: ' + JSON.stringify(data)
+        } catch (error) {
+          console.error('Error fetching public endpoint:', error)
+        }
+      }
+
+      async function fetchProtected() {
+        try {
+          const response = await fetch('http://localhost:3344/protected', {
+            headers: {
+              Authorization: 'nostr'
+            }
+          })
+          const data = await response.json()
+          document.getElementById('protectedResponse').innerText =
+            'Protected Endpoint Response: ' + JSON.stringify(data)
+        } catch (error) {
+          console.error('Error fetching protected endpoint:', error)
+        }
+      }
+    </script>
+  </body>
+</html>

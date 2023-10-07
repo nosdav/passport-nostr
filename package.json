@@ -1,6 +1,6 @@
 {
   "name": "passport-nostr",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "passport-nostr",
   "type": "module",
   "main": "index.js",
@@ -22,5 +22,11 @@
     "url": "https://github.com/nosdav/passport-nostr/issues"
   },
   "homepage": "https://github.com/nosdav/passport-nostr#readme",
-  "dependencies": {}
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "passport": "^0.6.0",
+    "passport-strategy": "^1.0.0",
+    "util": "^0.12.5"
+  }
 }

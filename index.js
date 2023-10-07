@@ -1,4 +1,5 @@
 import PassportStrategy from 'passport-strategy'
+import { verifySignature } from 'nostr-tools'
 
 class NostrStrategy extends PassportStrategy {
     constructor() {

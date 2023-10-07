@@ -42,6 +42,8 @@
       }
     </style>
   </head>
+  <script src="https://unpkg.com/nosdav-shim"></script>
+
   <body>
     <h1>Test API Endpoints</h1>
     <button onclick="fetchPublic()">Fetch Public Endpoint</button>
@@ -65,6 +67,7 @@
       async function fetchProtected() {
         try {
           const response = await fetch('http://localhost:3344/protected', {
+            method: 'PUT', // Specify HTTP method as PUT
             headers: {
               Authorization: 'nostr'
             }

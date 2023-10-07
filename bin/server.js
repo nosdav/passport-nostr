@@ -29,7 +29,7 @@ app.options('*', (req, res) => {
     res.sendStatus(200)
 })
 
-app.get(
+app.all(
     '/protected',
     passport.authenticate('nostr', { session: false }),
     (req, res) => {

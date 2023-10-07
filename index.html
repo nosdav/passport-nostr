@@ -53,9 +53,11 @@
     <p id="protectedResponse">Protected Endpoint Response:</p>
 
     <script>
+      // var server = 'https://passport-nostr--melvincarvalho.repl.co/'
+      var server = 'https://nosdav.net:3344/'
       async function fetchPublic() {
         try {
-          const response = await fetch('http://localhost:3344/public')
+          const response = await fetch(server + '/public')
           const data = await response.json()
           document.getElementById('publicResponse').innerText =
             'Public Endpoint Response: ' + JSON.stringify(data)
@@ -66,7 +68,7 @@
 
       async function fetchProtected() {
         try {
-          const response = await fetch('http://localhost:3344/protected', {
+          const response = await fetch(server + '/protected', {
             method: 'PUT', // Specify HTTP method as PUT
             headers: {
               Authorization: 'nostr'

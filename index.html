@@ -69,11 +69,20 @@
               Authorization: 'nostr'
             }
           })
+
+          if (response.status === 401) {
+            document.getElementById('protectedResponse').innerText =
+              'Protected Endpoint Response: Unauthorized'
+            return
+          }
+
           const data = await response.json()
           document.getElementById('protectedResponse').innerText =
             'Protected Endpoint Response: ' + JSON.stringify(data)
         } catch (error) {
           console.error('Error fetching protected endpoint:', error)
+          document.getElementById('protectedResponse').innerText =
+            'Protected Endpoint Response: Error fetching data'
         }
       }
     </script>

@@ -64,35 +64,64 @@ app.get(
 
 ## 🛡️ Strategy Logic
 
-**Passport-Nostr** operates on a simple logic - authenticate requests containing the word `'nostr'` in the `Authorization` header:
+### Overview
+
+**Passport-Nostr** validates the `Authorization` header of incoming HTTP requests. The header should contain a Nostr authentication event, encoded in Base64, that confirms the request has been authenticated by a specific user. This strategy employs the [Nostr standards](https://github.com/nostr) for a decentralized social network.
+
+### Mechanism
+
+1. **Extract and Decode**: The `Authorization` header, prefixed with 'Nostr ', is extracted and decoded from Base64 to a JSON object.
+2. **Event Verification**: The decoded object should represent a Nostr event with:
+
+   - `kind` equal to `27235`.
+   - `method` tag matching the HTTP method of the request.
+   - `u` tag matching the request’s URL.
+   - `created_at` timestamp within a 60-second window of the current time.
+
+3. **Signature Verification**: The event is authenticated by verifying its signature.
+
+### Example Logic
+
+Here’s a simplified overview of the logic implemented in the **Passport-Nostr** strategy:
 
 ```javascript
 import PassportStrategy from 'passport-strategy'
+import { verifySignature } from 'nostr-tools'
 
 class NostrStrategy extends PassportStrategy {
-  constructor() {
-    super()
-    this.name = 'nostr'
-  }
+  // ... Constructor & other methods ...
 
   authenticate(req, options) {
-    // Extract the Authorization header from the request
     const authHeader = req.headers.authorization
+    const method = req.method
+    const url = req.protocol + '://' + req.get('host') + req.originalUrl
 
-    // Check if the Authorization header contains the word "nostr"
-    if (authHeader && authHeader.includes('nostr')) {
-      // Authentication succeeded
-      const user = {} // Populate with user details if needed
-      this.success(user)
-    } else {
-      // Authentication failed
-      this.fail()
-    }
+    // Validate and authenticate...
+    const pubkey = isValidAuthorizationHeader(authHeader, method, url)
+
+    // Handle authentication results...
   }
+}
+
+function isValidAuthorizationHeader(authorization, method, url) {
+  // Decode and parse the event from the Authorization header...
+  // Validate event details and signature...
+  // Return the public key if valid, otherwise false...
 }
 
 export default NostrStrategy
 ```
+
+### Detailed Flow
+
+Upon receiving a request, the strategy:
+
+- Extracts and decodes the Nostr event from the `Authorization` header.
+- Validates the event’s `kind`, `method`, `u` (URL), and `created_at` (timestamp) against expected values and the request’s context.
+- Verifies the event’s signature to confirm authenticity.
+- If the event is valid, the request is authenticated. Otherwise, authentication fails.
+
+For detailed implementation and validations, refer to the strategy code snippet provided in your message.
 
 ## 🛠️ Usage Example
 

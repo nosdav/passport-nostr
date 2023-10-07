@@ -53,8 +53,14 @@
     <p id="protectedResponse">Protected Endpoint Response:</p>
 
     <script>
-      var server = 'http://162.55.33.235:3344'
-      // var server = 'http://localhost:3344'
+      var defaultServer = 'http://162.55.33.235:3344'
+      // var defaultServer = 'http://localhost:3344'
+
+      const urlParams = new URLSearchParams(window.location.search)
+      const serverParam = urlParams.get('server')
+
+      // Set the 'server' variable to the parameter value, or default to a predetermined value
+      var server = serverParam || defaultServer
 
       async function fetchPublic() {
         try {

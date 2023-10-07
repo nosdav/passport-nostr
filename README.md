@@ -1,3 +1,5 @@
+![image](https://github.com/nosdav/passport-nostr/assets/65864/dd7adb6a-ddec-48d0-9d7f-25c7de53a4be)
+
 <div align="center">  
   <h1>passport-nostr</h1>
 </div>

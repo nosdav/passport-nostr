@@ -134,7 +134,3 @@ We welcome contributions to **Passport-Nostr**! Please see [CONTRIBUTING.md](CON
 ## 📄 License
 
 **Passport-Nostr** is [MIT licensed](LICENSE).
-
----
-
-Feel free to enhance the README according to your project needs. Adding a visually appealing banner, consistent typography, and possibly, some badges (for version number, build status, etc.) will make it even more engaging. If you need further adjustments or additional sections, please let me know!

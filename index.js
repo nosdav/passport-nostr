@@ -6,19 +6,62 @@ class NostrStrategy extends PassportStrategy {
         this.name = 'nostr'
     }
 
+    failWithJSON() {
+        // Send a JSON response on failure
+        console.log('401')
+        this.fail({ message: '401' }, 401)
+    }
+
     authenticate(req, options) {
-        // Extract the Authorization header from the request
         const authHeader = req.headers.authorization
 
-        // Check if the Authorization header contains the word "nostr"
-        if (authHeader && authHeader.includes('nostr')) {
+        if (!authHeader || !authHeader.startsWith('Nostr ')) {
+            // Authentication failed
+            this.failWithJSON()
+            return
+        }
+
+        const pubkey = isValidAuthorizationHeader(authHeader)
+
+        if (pubkey) {
             // Authentication succeeded
-            const user = {} // You might populate this object with user details if needed
+            const user = { pubkey } // You might populate this object with additional user details if needed
             this.success(user)
         } else {
             // Authentication failed
-            this.fail()
+            this.failWithJSON()
         }
+    }
+}
+
+function isValidAuthorizationHeader(authorization) {
+    console.log('authorization', authorization)
+    const base64String = authorization.replace('Nostr ', '')
+
+    // Decode the base64-encoded string and parse the JSON object
+    const decodedString = Buffer.from(base64String, 'base64').toString('utf-8')
+    console.log('decodedString', decodedString)
+    if (!decodedString) {
+        console.log('auth header is empty')
+        return false
+    }
+
+    let event
+    try {
+        event = JSON.parse(decodedString)
+    } catch (e) {
+        console.error('Error parsing JSON:', e)
+        return false
+    }
+
+    // Print the object
+    console.log(event)
+
+    const isVerified = verifySignature(event)
+    if (isVerified) {
+        return event.pubkey
+    } else {
+        return false
     }
 }
 

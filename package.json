@@ -1,13 +1,12 @@
 {
   "name": "passport-nostr",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "passport-nostr",
   "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nosdav/passport-nostr.git"

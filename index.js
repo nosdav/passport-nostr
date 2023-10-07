@@ -15,6 +15,8 @@ class NostrStrategy extends PassportStrategy {
 
   authenticate(req, options) {
     const authHeader = req.headers.authorization
+    const method = req.method // Extract method from request
+    const url = req.protocol + '://' + req.get('host') + req.originalUrl
 
     if (!authHeader || !authHeader.startsWith('Nostr ')) {
       // Authentication failed
@@ -22,7 +24,7 @@ class NostrStrategy extends PassportStrategy {
       return
     }
 
-    const pubkey = isValidAuthorizationHeader(authHeader)
+    const pubkey = isValidAuthorizationHeader(authHeader, method, url)
 
     if (pubkey) {
       // Authentication succeeded
@@ -35,7 +37,7 @@ class NostrStrategy extends PassportStrategy {
   }
 }
 
-function isValidAuthorizationHeader(authorization) {
+function isValidAuthorizationHeader(authorization, method, url) {
   console.log('authorization', authorization)
   const base64String = authorization.replace('Nostr ', '')
 
@@ -59,27 +61,23 @@ function isValidAuthorizationHeader(authorization) {
   console.log(event)
 
   // Check for kind, method, and timestamp
-  // if (
-  //   event.kind !== 27235 ||
-  //   !event.tags.find(tag => tag[0] === 'method' && tag[1] === method) ||
-  //   !event.tags.find(tag => tag[0] === 'u' && tag[1] === url) ||
-  //   Math.abs(event.created_at - Math.floor(Date.now() / 1000)) > 60 // time window of 60 seconds
-  // ) {
   if (
     event.kind !== 27235 ||
+    !event.tags.find(tag => tag[0] === 'method' && tag[1] === method) ||
+    !event.tags.find(tag => tag[0] === 'u' && tag[1] === url) ||
     Math.abs(event.created_at - Math.floor(Date.now() / 1000)) > 60 // time window of 60 seconds
   ) {
     if (event.kind !== 27235) {
       console.log('Failure: event.kind is not 27235. Found:', event.kind)
     }
 
-    // if (!event.tags.find(tag => tag[0] === 'method' && tag[1] === method)) {
-    //   console.log('Failure: No matching method tag found. Expected method:', method)
-    // }
+    if (!event.tags.find(tag => tag[0] === 'method' && tag[1] === method)) {
+      console.log('Failure: No matching method tag found. Expected method:', method)
+    }
 
-    // if (!event.tags.find(tag => tag[0] === 'u' && tag[1] === url)) {
-    //   console.log('Failure: No matching url tag found. Expected url:', url)
-    // }
+    if (!event.tags.find(tag => tag[0] === 'u' && tag[1] === url)) {
+      console.log('Failure: No matching u tag found. Expected u:', url)
+    }
 
     const timestampDifference = Math.abs(event.created_at - Math.floor(Date.now() / 1000))
     if (timestampDifference > 60) {

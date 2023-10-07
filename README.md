@@ -42,10 +42,10 @@ yarn add passport-nostr
 Implement the **NostrStrategy** in your Express.js application:
 
 ```javascript
-import passport from 'passport';
-import NostrStrategy from 'passport-nostr';
+import passport from 'passport'
+import NostrStrategy from 'passport-nostr'
 
-passport.use(new NostrStrategy());
+passport.use(new NostrStrategy())
 ```
 
 ### 3. Secure Endpoints
@@ -54,12 +54,12 @@ Secure your API endpoints effortlessly:
 
 ```javascript
 app.get(
-    '/protected',
-    passport.authenticate('nostr', { session: false }),
-    (req, res) => {
-        res.json({ message: 'This is a protected endpoint.' });
-    }
-);
+  '/protected',
+  passport.authenticate('nostr', { session: false }),
+  (req, res) => {
+    res.json({ message: 'This is a protected endpoint.' })
+  }
+)
 ```
 
 ## 🛡️ Strategy Logic
@@ -70,25 +70,25 @@ app.get(
 import PassportStrategy from 'passport-strategy'
 
 class NostrStrategy extends PassportStrategy {
-    constructor() {
-        super()
-        this.name = 'nostr'
-    }
+  constructor() {
+    super()
+    this.name = 'nostr'
+  }
 
-    authenticate(req, options) {
-        // Extract the Authorization header from the request
-        const authHeader = req.headers.authorization
+  authenticate(req, options) {
+    // Extract the Authorization header from the request
+    const authHeader = req.headers.authorization
 
-        // Check if the Authorization header contains the word "nostr"
-        if (authHeader && authHeader.includes('nostr')) {
-            // Authentication succeeded
-            const user = {} // Populate with user details if needed
-            this.success(user)
-        } else {
-            // Authentication failed
-            this.fail()
-        }
+    // Check if the Authorization header contains the word "nostr"
+    if (authHeader && authHeader.includes('nostr')) {
+      // Authentication succeeded
+      const user = {} // Populate with user details if needed
+      this.success(user)
+    } else {
+      // Authentication failed
+      this.fail()
     }
+  }
 }
 
 export default NostrStrategy
@@ -99,26 +99,26 @@ export default NostrStrategy
 Here’s a quick example to illustrate how **Passport-Nostr** can be implemented:
 
 ```javascript
-import express from 'express';
-import passport from 'passport';
-import NostrStrategy from 'passport-nostr';
+import express from 'express'
+import passport from 'passport'
+import NostrStrategy from 'passport-nostr'
 
-const app = express();
+const app = express()
 
-passport.use(new NostrStrategy());
-app.use(passport.initialize());
+passport.use(new NostrStrategy())
+app.use(passport.initialize())
 
 app.get(
-    '/protected',
-    passport.authenticate('nostr', { session: false }),
-    (req, res) => {
-        res.json({ message: 'Access Granted to Protected Endpoint!' });
-    }
-);
+  '/protected',
+  passport.authenticate('nostr', { session: false }),
+  (req, res) => {
+    res.json({ message: 'Access Granted to Protected Endpoint!' })
+  }
+)
 
-app.listen(3000, () => {
-    console.log('Server is running on port 3000');
-});
+app.listen(3344, () => {
+  console.log('Server is running on port 3344')
+})
 ```
 
 ## 💼 Use-Cases

@@ -16,7 +16,6 @@ const app = express()
 app.use(passport.initialize())
 
 // Add CORS headers middleware
-// Add CORS headers middleware
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*') // or specify allowed domains instead of '*'
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
